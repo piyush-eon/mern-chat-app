@@ -2,6 +2,14 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const generateToken = require("../config/generateToken");
 
+//@description     Get all users
+//@route           GET /api/user/
+//@access          Public
+const allUsers = asyncHandler(async (req, res) => {
+  const users = await User.find();
+  res.send(users);
+});
+
 //@description     Register new user
 //@route           POST /api/user/
 //@access          Public
@@ -65,4 +73,4 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, authUser };
+module.exports = { allUsers, registerUser, authUser };
