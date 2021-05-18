@@ -3,7 +3,7 @@ const Chat = require("../models/chatModel");
 
 //@description     Create or fetch One to One Chat
 //@route           POST /api/chat/
-//@access          Public
+//@access          Protected
 const accessChat = asyncHandler(async (req, res) => {
   const { userId } = req.body;
 
