@@ -111,4 +111,32 @@ export const messages = [
     updatedAt: "2021-05-18T17:01:18.332Z",
     __v: 0,
   },
+  {
+    readBy: [],
+    _id: "60a3f47ece619262c884b77d",
+    sender: {
+      pic: "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+      _id: "2",
+      name: "John Doe",
+    },
+    content: "From Roadside Coder?",
+    chat: "60a3de1ff381d830b884998d",
+    createdAt: "2021-05-18T17:19:16.447Z",
+    updatedAt: "2021-05-18T17:19:16.447Z",
+    __v: 0,
+  },
+  {
+    readBy: [],
+    _id: "60a3f2ed0c8dcc43bc3cfff2",
+    sender: {
+      pic: "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+      _id: "60a281bc502ec30428fb6bb0",
+      name: "Piyush",
+    },
+    content: "Yea boiii..",
+    chat: "60a3de1ff381d830b884998d",
+    createdAt: "2021-05-18T17:20:18.332Z",
+    updatedAt: "2021-05-18T17:20:18.332Z",
+    __v: 0,
+  },
 ];

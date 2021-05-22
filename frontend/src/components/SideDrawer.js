@@ -3,6 +3,13 @@ import { useDisclosure } from "@chakra-ui/hooks";
 import { Input } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
 import {
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+} from "@chakra-ui/menu";
+import {
   Drawer,
   DrawerBody,
   DrawerContent,
@@ -10,8 +17,10 @@ import {
   DrawerOverlay,
 } from "@chakra-ui/modal";
 import { Tooltip } from "@chakra-ui/tooltip";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import { Avatar } from "@chakra-ui/avatar";
 
-function SideDrawer() {
+function SideDrawer({ user }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -27,13 +36,27 @@ function SideDrawer() {
         borderWidth="5px"
       >
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
-          <Button variant="solid" onClick={onOpen}>
-            <i class="fas fa-search"></i>
+          <Button variant="ghost" onClick={onOpen}>
+            <i className="fas fa-search"></i>
           </Button>
         </Tooltip>
         <Text fontSize="2xl" fontFamily="Work sans">
           MERN CHAT APP
         </Text>
+        <Menu>
+          <MenuButton as={Button} bg="white" rightIcon={<ChevronDownIcon />}>
+            <Avatar
+              size="sm"
+              cursor="pointer"
+              name={user.name}
+              // src={user.pic}
+            />
+          </MenuButton>
+          <MenuList>
+            <MenuItem>My Profile</MenuItem> <MenuDivider />
+            <MenuItem>Logout</MenuItem>
+          </MenuList>
+        </Menu>
       </Box>
 
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
