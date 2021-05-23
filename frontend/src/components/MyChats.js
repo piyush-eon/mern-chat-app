@@ -5,8 +5,14 @@ import { useEffect, useState } from "react";
 import { getSender } from "../config/ChatLogics";
 import ChatLoading from "./ChatLoading";
 
-const MyChats = ({ user, selectedChat, setSelectedChat }) => {
-  const [chats, setChats] = useState();
+const MyChats = ({
+  user,
+  selectedChat,
+  setSelectedChat,
+  chats,
+  setChats,
+  fetchAgain,
+}) => {
   const [loggedUser, setLoggedUser] = useState();
   const toast = useToast();
 
@@ -38,27 +44,31 @@ const MyChats = ({ user, selectedChat, setSelectedChat }) => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
     // eslint-disable-next-line
-  }, []);
+  }, [fetchAgain]);
 
   return (
     <Box
-      d="flex"
+      d={{ base: selectedChat ? "none" : "flex", md: "flex" }}
       flexDir="column"
       alignItems="center"
       p={3}
       bg="white"
-      w="31%"
+      w={{ base: "100%", md: "31%" }}
       borderRadius="lg"
       borderWidth="1px"
     >
-      <Text fontSize="3xl" fontFamily="Work sans">
+      <Text
+        pb={3}
+        fontSize={{ base: "25px", md: "30px" }}
+        fontFamily="Work sans"
+      >
         My Chats
       </Text>
       <Box
         d="flex"
         flexDir="column"
         p={3}
-        // bg="#E8E8E8"
+        bg="#F8F8F8"
         w="100%"
         h="100%"
         borderRadius="lg"
@@ -82,12 +92,14 @@ const MyChats = ({ user, selectedChat, setSelectedChat }) => {
                     ? getSender(loggedUser, chat.users)
                     : chat.chatName}
                 </Text>
-                <Text fontSize="xs">
-                  <b>{chat.latestMessage.sender.name} : </b>
-                  {chat.latestMessage.content.length > 50
-                    ? chat.latestMessage.content.substring(0, 51) + "..."
-                    : chat.latestMessage.content}
-                </Text>
+                {chat.latestMessage && (
+                  <Text fontSize="xs">
+                    <b>{chat.latestMessage.sender.name} : </b>
+                    {chat.latestMessage.content.length > 50
+                      ? chat.latestMessage.content.substring(0, 51) + "..."
+                      : chat.latestMessage.content}
+                  </Text>
+                )}
               </Box>
             ))}
           </Stack>
