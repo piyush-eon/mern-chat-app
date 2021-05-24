@@ -2,28 +2,15 @@ import { FormControl } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
 import "./styles.css";
-import ScrollableFeed from "react-scrollable-feed";
-import {
-  Avatar,
-  IconButton,
-  Spinner,
-  Tooltip,
-  useToast,
-} from "@chakra-ui/react";
-import {
-  getSender,
-  isLastMessage,
-  isSameSender,
-  isSameSenderMargin,
-  isSameUser,
-  getSenderFull,
-} from "../config/ChatLogics";
+import { IconButton, Spinner, useToast } from "@chakra-ui/react";
+import { getSender, getSenderFull } from "../config/ChatLogics";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ArrowBackIcon } from "@chakra-ui/icons";
+import ProfileModal from "./miscellaneous/ProfileModal";
+import ScrollableChat from "./ScrollableChat";
 
 import io from "socket.io-client";
-import ProfileModal from "./ProfileModal";
 const ENDPOINT = "localhost:5000";
 var socket;
 
@@ -78,7 +65,6 @@ const SingleChat = ({
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
       socket.emit("stop typing", selectedChat._id);
-      // console.log(newMessage);
       try {
         const config = {
           headers: {
@@ -204,51 +190,7 @@ const SingleChat = ({
               />
             ) : (
               <div className="messages">
-                <ScrollableFeed>
-                  {messages &&
-                    messages.map((m, i) => (
-                      <div style={{ display: "flex" }} key={m._id}>
-                        {(isSameSender(messages, m, i, user._id) ||
-                          isLastMessage(messages, i, user._id)) && (
-                          <Tooltip
-                            label={m.sender.name}
-                            placement="bottom-start"
-                            hasArrow
-                          >
-                            <Avatar
-                              mt="7px"
-                              mr={1}
-                              size="sm"
-                              cursor="pointer"
-                              name={m.sender.name}
-                              // src={m.sender.pic}
-                            />
-                          </Tooltip>
-                        )}
-                        <span
-                          style={{
-                            backgroundColor: `${
-                              m.sender._id === user._id ? "#BEE3F8" : "#B9F5D0"
-                            }`,
-                            marginLeft: isSameSenderMargin(
-                              messages,
-                              m,
-                              i,
-                              user._id
-                            ),
-                            marginTop: isSameUser(messages, m, i, user._id)
-                              ? 3
-                              : 10,
-                            borderRadius: "20px",
-                            padding: "5px 15px",
-                            maxWidth: "75%",
-                          }}
-                        >
-                          {m.content}
-                        </span>
-                      </div>
-                    ))}
-                </ScrollableFeed>
+                <ScrollableChat messages={messages} user={user} />
               </div>
             )}
 
