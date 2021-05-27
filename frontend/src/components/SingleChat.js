@@ -212,7 +212,7 @@ const SingleChat = ({
           </Box>
         </>
       ) : (
-        // to get socket io on same page
+        // to get socket.io on same page
         <Box d="flex" alignItems="center" justifyContent="center" h="100%">
           <Text fontSize="3xl" pb={3} fontFamily="Work sans">
             Click on a user to start chatting

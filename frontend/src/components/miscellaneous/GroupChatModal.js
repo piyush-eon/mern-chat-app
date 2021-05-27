@@ -50,13 +50,11 @@ const GroupChatModal = ({ user, children }) => {
 
     try {
       setLoading(true);
-
       const config = {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
       };
-
       const { data } = await axios.get(`/api/user?search=${search}`, config);
       console.log(data);
       setLoading(false);
@@ -71,6 +69,10 @@ const GroupChatModal = ({ user, children }) => {
         position: "bottom-left",
       });
     }
+  };
+
+  const handleDelete = (delUser) => {
+    setSelectedUsers(selectedUsers.filter((sel) => sel._id !== delUser._id));
   };
 
   return (
@@ -90,9 +92,6 @@ const GroupChatModal = ({ user, children }) => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody d="flex" flexDir="column" alignItems="center">
-            {/* <Text fontSize="27px" pb={3} fontFamily="Work sans">
-              Email: {user.email}
-            </Text> */}
             <FormControl>
               <Input placeholder="Chat Name" mb={3} />
             </FormControl>
@@ -115,7 +114,7 @@ const GroupChatModal = ({ user, children }) => {
                   fontSize={12}
                   colorScheme="purple"
                   cursor="pointer"
-                  onClick={() => console.log(u.name)}
+                  onClick={() => handleDelete(u)}
                 >
                   {u.name}
                 </Badge>
