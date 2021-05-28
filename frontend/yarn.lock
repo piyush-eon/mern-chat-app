@@ -4289,6 +4289,11 @@ core-js-pure@^3.0.0:
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.12.1.tgz#934da8b9b7221e2a2443dc71dfa5bd77a7ea00b8"
   integrity sha512-1cch+qads4JnDSWsvc7d6nzlKAippwjUlf6vykkTLW53VSV+NkE6muGBToAjEA8pG90cSfcud3JgVmW2ds5TaQ==
 
+core-js@3:
+  version "3.13.0"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.13.0.tgz#58ca436bf01d6903aee3d364089868d0d89fe58d"
+  integrity sha512-iWDbiyha1M5vFwPFmQnvRv+tJzGbFAm6XimJUT0NgHYW3xZEs1SkCAcasWSVFxpI2Xb/V1DDJckq3v90+bQnog==
+
 core-js@^2.4.0:
   version "2.6.12"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
@@ -9969,6 +9974,13 @@ react-is@^17.0.1:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
+
+react-notification-badge@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/react-notification-badge/-/react-notification-badge-1.5.1.tgz#20208cf8697cf448d177b4df753ef27ea30510df"
+  integrity sha512-4/kFrQcJ7eMfYh9SdXXgBaaEDCIV7UsLX5bgSS1aj+OnX2OpIFTatY3Dclo8qLpkX+Ue6x0Aiib+U9dkDKrSwQ==
+  dependencies:
+    core-js "3"
 
 react-refresh@^0.8.3:
   version "0.8.3"

@@ -12,7 +12,7 @@ import ScrollableChat from "./ScrollableChat";
 
 import io from "socket.io-client";
 const ENDPOINT = "localhost:5000";
-var socket;
+var socket, selectedChatCompare;
 
 const SingleChat = ({
   setSelectedChat,
@@ -20,6 +20,8 @@ const SingleChat = ({
   user,
   fetchAgain,
   setFetchAgain,
+  notification,
+  setNotification,
 }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -45,7 +47,6 @@ const SingleChat = ({
         `/api/message/${selectedChat._id}`,
         config
       );
-      console.log(data);
       setMessages(data);
       setLoading(false);
 
@@ -81,7 +82,6 @@ const SingleChat = ({
           },
           config
         );
-        // console.log("local", data);
         socket.emit("new message", data);
         setMessages([...messages, data]);
       } catch (error) {
@@ -98,29 +98,40 @@ const SingleChat = ({
   };
 
   useEffect(() => {
-    fetchMessages();
     socket = io(ENDPOINT);
     socket.emit("setup", user);
     socket.on("connected", () => setSocketConnected(true));
-
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
 
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    fetchMessages();
+
+    selectedChatCompare = selectedChat;
     // eslint-disable-next-line
   }, [selectedChat]);
 
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
-      if (!selectedChat || selectedChat._id !== newMessageRecieved.chat._id) {
-        toast({
-          title: `New Message from ${newMessageRecieved.sender.name}`,
-          description: newMessageRecieved.content,
-          status: "info",
-          duration: 9000,
-          isClosable: true,
-          position: "bottom",
-        });
-        setFetchAgain(!fetchAgain);
+      if (
+        !selectedChatCompare ||
+        selectedChatCompare._id !== newMessageRecieved.chat._id
+      ) {
+        // toast({
+        //   title: `New Message from ${newMessageRecieved.sender.name}`,
+        //   description: newMessageRecieved.content,
+        //   status: "info",
+        //   duration: 9000,
+        //   isClosable: true,
+        //   position: "bottom",
+        // });
+        if (!notification.includes(newMessageRecieved)) {
+          setNotification([newMessageRecieved, ...notification]);
+          setFetchAgain(!fetchAgain);
+        }
       } else {
         setMessages([...messages, newMessageRecieved]);
       }
@@ -133,17 +144,18 @@ const SingleChat = ({
     if (!socketConnected) return;
 
     if (!typing) {
-      // setTyping(true);
+      setTyping(true);
       socket.emit("typing", selectedChat._id);
     }
-    // let lastTypingTime = new Date().getTime();
+    let lastTypingTime = new Date().getTime();
     var timerLength = 3000;
     setTimeout(() => {
-      // var timeNow = new Date().getDate();
-      // var timeDiff = timeNow - lastTypingTime;
-      // if (timeDiff >= timerLength)
-      socket.emit("stop typing", selectedChat._id);
-      setTyping(false);
+      var timeNow = new Date().getTime();
+      var timeDiff = timeNow - lastTypingTime;
+      if (timeDiff >= timerLength && typing) {
+        socket.emit("stop typing", selectedChat._id);
+        setTyping(false);
+      }
     }, timerLength);
   };
 
@@ -166,7 +178,10 @@ const SingleChat = ({
               icon={<ArrowBackIcon />}
               onClick={() => setSelectedChat("")}
             />
-            {messages && getSender(user, selectedChat.users)}
+            {messages &&
+              (!selectedChat.isGroupChat
+                ? getSender(user, selectedChat.users)
+                : selectedChat.chatName.toUpperCase())}
             <ProfileModal user={getSenderFull(user, selectedChat.users)} />
           </Text>
           <Box

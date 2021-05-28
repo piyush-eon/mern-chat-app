@@ -17,7 +17,7 @@ import {
   DrawerOverlay,
 } from "@chakra-ui/modal";
 import { Tooltip } from "@chakra-ui/tooltip";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { Avatar } from "@chakra-ui/avatar";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
@@ -26,8 +26,18 @@ import { useToast } from "@chakra-ui/toast";
 import ChatLoading from "../ChatLoading";
 import { Spinner } from "@chakra-ui/spinner";
 import ProfileModal from "./ProfileModal";
+import NotificationBadge from "react-notification-badge";
+import { Effect } from "react-notification-badge";
+import { getSender } from "../../config/ChatLogics";
 
-function SideDrawer({ user, chats, setChats, setSelectedChat }) {
+function SideDrawer({
+  user,
+  chats,
+  setChats,
+  setSelectedChat,
+  notification,
+  setNotification,
+}) {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -127,24 +137,53 @@ function SideDrawer({ user, chats, setChats, setSelectedChat }) {
         <Text fontSize="2xl" fontFamily="Work sans">
           MERN CHAT APP
         </Text>
-        <Menu>
-          <MenuButton as={Button} bg="white" rightIcon={<ChevronDownIcon />}>
-            <Avatar
-              size="sm"
-              cursor="pointer"
-              name={user.name}
-              // src={user.pic}
-            />
-          </MenuButton>
-          <MenuList>
-            {" "}
-            <ProfileModal user={user}>
-              <MenuItem>My Profile</MenuItem>{" "}
-            </ProfileModal>
-            <MenuDivider />
-            <MenuItem onClick={logoutHandler}>Logout</MenuItem>
-          </MenuList>
-        </Menu>
+        <div>
+          <Menu>
+            <MenuButton p={1}>
+              <NotificationBadge
+                count={notification.length}
+                effect={Effect.SCALE}
+              />
+              <BellIcon fontSize="2xl" m={1} />
+            </MenuButton>
+            <MenuList pl={2}>
+              {!notification.length && "No New Messages"}
+              {notification.map((notif) => (
+                <MenuItem
+                  key={notif._id}
+                  onClick={() => {
+                    setSelectedChat(notif.chat);
+                    setNotification(notification.filter((n) => n !== notif));
+                  }}
+                >
+                  {notif.chat.isGroupChat
+                    ? `New Message in ${notif.chat.chatName}`
+                    : `New Message from ${getSender(
+                        user,
+                        notif.chat.users
+                      )} efdafada`}
+                </MenuItem>
+              ))}
+            </MenuList>
+          </Menu>
+          <Menu>
+            <MenuButton as={Button} bg="white" rightIcon={<ChevronDownIcon />}>
+              <Avatar
+                size="sm"
+                cursor="pointer"
+                name={user.name}
+                // src={user.pic}
+              />
+            </MenuButton>
+            <MenuList>
+              <ProfileModal user={user}>
+                <MenuItem>My Profile</MenuItem>{" "}
+              </ProfileModal>
+              <MenuDivider />
+              <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+            </MenuList>
+          </Menu>
+        </div>
       </Box>
 
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>

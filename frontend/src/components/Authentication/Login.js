@@ -48,7 +48,7 @@ const Login = () => {
     } catch (error) {
       toast({
         title: "Error Occured!",
-        description: error.message,
+        description: error.response.data.message,
         status: "error",
         duration: 9000,
         isClosable: true,

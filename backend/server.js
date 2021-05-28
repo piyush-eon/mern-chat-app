@@ -46,7 +46,10 @@ io.on("connection", (socket) => {
     socket.emit("connected");
   });
 
-  socket.on("join chat", (room) => socket.join(room));
+  socket.on("join chat", (room) => {
+    socket.join(room);
+    console.log("User Joined Room: " + room);
+  });
   socket.on("typing", (room) => socket.in(room).emit("typing"));
   socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
 
@@ -60,5 +63,10 @@ io.on("connection", (socket) => {
 
       socket.in(user._id).emit("message recieved", newMessageRecieved);
     });
+  });
+
+  socket.off("setup", () => {
+    console.log("USER DISCONNECTED");
+    socket.leave(userData._id);
   });
 });
