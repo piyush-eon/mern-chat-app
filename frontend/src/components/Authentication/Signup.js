@@ -2,11 +2,16 @@ import { Button } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { VStack } from "@chakra-ui/layout";
+import { useToast } from "@chakra-ui/toast";
+import axios from "axios";
 import { useState } from "react";
+import { useHistory } from "react-router";
 
 const Signup = () => {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
+  const toast = useToast();
+  const history = useHistory();
 
   const [name, setName] = useState();
   const [email, setEmail] = useState();
@@ -15,53 +20,97 @@ const Signup = () => {
   const [pic, setPic] = useState();
 
   const submitHandler = async () => {
-    //   if (!name || !email || !password || !confirmpassword) {
-    //     toast({
-    //       title: "Please Fill all the Feilds",
-    //       status: "warning",
-    //       duration: 9000,
-    //       isClosable: true,
-    //       position: "bottom",
-    //     });
-    //     return;
-    //   }
-    console.log(
-      name,
-      email,
-      password,
-      confirmpassword,
-      pic === undefined ? "" : pic
-    );
-    //   try {
-    //     const config = {
-    //       headers: {
-    //         "Content-type": "application/json",
-    //       },
-    //     };
-    //     const { data } = await axios.post(
-    //       "/api/user",
-    //       {
-    //         name,
-    //         email,
-    //         password,
-    //         confirmpassword,
-    //         // pic === undefined ? "" : pic
-    //       },
-    //       config
-    //     );
-    //     console.log(JSON.stringify(data));
-    //     localStorage.setItem("userInfo", JSON.stringify(data));
-    //     history.push("/chats");
-    //   } catch (error) {
-    //     toast({
-    //       title: "Error Occured!",
-    //       description: error.message,
-    //       status: "error",
-    //       duration: 9000,
-    //       isClosable: true,
-    //       position: "bottom",
-    //     });
-    //   }
+    if (!name || !email || !password || !confirmpassword) {
+      toast({
+        title: "Please Fill all the Feilds",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
+    if (password !== confirmpassword) {
+      toast({
+        title: "Passwords Do Not Match",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
+    console.log(name, email, password, pic);
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        "/api/user",
+        {
+          name,
+          email,
+          password,
+          pic,
+        },
+        config
+      );
+      console.log(data);
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      history.push("/chats");
+    } catch (error) {
+      toast({
+        title: "Error Occured!",
+        description: error.response.data.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  };
+
+  const postDetails = (pics) => {
+    if (pics === undefined) {
+      toast({
+        title: "Please Select an Image!",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
+    console.log(pics);
+    if (pics.type === "image/jpeg" || pics.type === "image/png") {
+      const data = new FormData();
+      data.append("file", pics);
+      data.append("upload_preset", "chat-app");
+      data.append("cloud_name", "piyushproj");
+      fetch("https://api.cloudinary.com/v1_1/piyushproj/image/upload", {
+        method: "post",
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setPic(data.url.toString());
+          console.log(data.url.toString());
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      toast({
+        title: "Please Select an Image!",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
   };
 
   return (
@@ -117,7 +166,7 @@ const Signup = () => {
           type="file"
           p={1.5}
           accept="image/*"
-          onChange={(e) => setPic(e.target.files[0])}
+          onChange={(e) => postDetails(e.target.files[0])}
         />
       </FormControl>
       <Button

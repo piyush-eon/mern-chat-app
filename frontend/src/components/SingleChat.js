@@ -11,6 +11,7 @@ import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
 
 import io from "socket.io-client";
+import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 const ENDPOINT = "localhost:5000";
 var socket, selectedChatCompare;
 
@@ -56,7 +57,7 @@ const SingleChat = ({
         title: "Error Occured!",
         description: "Failed to Load the Messages",
         status: "error",
-        duration: 9000,
+        duration: 5000,
         isClosable: true,
         position: "bottom",
       });
@@ -89,7 +90,7 @@ const SingleChat = ({
           title: "Error Occured!",
           description: "Failed to send the Message",
           status: "error",
-          duration: 9000,
+          duration: 5000,
           isClosable: true,
           position: "bottom",
         });
@@ -120,14 +121,6 @@ const SingleChat = ({
         !selectedChatCompare ||
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) {
-        // toast({
-        //   title: `New Message from ${newMessageRecieved.sender.name}`,
-        //   description: newMessageRecieved.content,
-        //   status: "info",
-        //   duration: 9000,
-        //   isClosable: true,
-        //   position: "bottom",
-        // });
         if (!notification.includes(newMessageRecieved)) {
           setNotification([newMessageRecieved, ...notification]);
           setFetchAgain(!fetchAgain);
@@ -179,10 +172,26 @@ const SingleChat = ({
               onClick={() => setSelectedChat("")}
             />
             {messages &&
-              (!selectedChat.isGroupChat
-                ? getSender(user, selectedChat.users)
-                : selectedChat.chatName.toUpperCase())}
-            <ProfileModal user={getSenderFull(user, selectedChat.users)} />
+              (!selectedChat.isGroupChat ? (
+                <>
+                  {getSender(user, selectedChat.users)}
+                  <ProfileModal
+                    user={getSenderFull(user, selectedChat.users)}
+                  />
+                </>
+              ) : (
+                <>
+                  {selectedChat.chatName.toUpperCase()}
+                  <UpdateGroupChatModal
+                    user={user}
+                    selectedChat={selectedChat}
+                    fetchMessages={fetchMessages}
+                    setSelectedChat={setSelectedChat}
+                    fetchAgain={fetchAgain}
+                    setFetchAgain={setFetchAgain}
+                  />
+                </>
+              ))}
           </Text>
           <Box
             d="flex"

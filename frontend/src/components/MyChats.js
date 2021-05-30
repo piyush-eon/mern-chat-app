@@ -36,7 +36,7 @@ const MyChats = ({
         title: "Error Occured!",
         description: "Failed to Load the chats",
         status: "error",
-        duration: 9000,
+        duration: 5000,
         isClosable: true,
         position: "bottom-left",
       });
@@ -71,12 +71,7 @@ const MyChats = ({
         alignItems="center"
       >
         My Chats
-        <GroupChatModal
-          user={user}
-          setSelectedChat={setSelectedChat}
-          chats={chats}
-          setChats={setChats}
-        >
+        <GroupChatModal user={user} chats={chats} setChats={setChats}>
           <Button
             d="flex"
             fontSize={{ base: "17px", md: "10px", lg: "17px" }}

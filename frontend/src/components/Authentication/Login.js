@@ -21,14 +21,14 @@ const Login = () => {
       toast({
         title: "Please Fill all the Feilds",
         status: "warning",
-        duration: 9000,
+        duration: 5000,
         isClosable: true,
         position: "bottom",
       });
       return;
     }
 
-    console.log(email, password);
+    // console.log(email, password);
     try {
       const config = {
         headers: {
@@ -42,7 +42,7 @@ const Login = () => {
         config
       );
 
-      console.log(JSON.stringify(data));
+      // console.log(JSON.stringify(data));
       localStorage.setItem("userInfo", JSON.stringify(data));
       history.push("/chats");
     } catch (error) {
@@ -50,7 +50,7 @@ const Login = () => {
         title: "Error Occured!",
         description: error.response.data.message,
         status: "error",
-        duration: 9000,
+        duration: 5000,
         isClosable: true,
         position: "bottom",
       });
