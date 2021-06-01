@@ -12,7 +12,7 @@ import ScrollableChat from "./ScrollableChat";
 
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
-const ENDPOINT = "localhost:5000";
+const ENDPOINT = "https://talk-a-tive.herokuapp.com";
 var socket, selectedChatCompare;
 
 const SingleChat = ({
