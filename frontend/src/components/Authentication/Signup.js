@@ -18,8 +18,10 @@ const Signup = () => {
   const [confirmpassword, setConfirmpassword] = useState();
   const [password, setPassword] = useState();
   const [pic, setPic] = useState();
+  const [picLoading, setPicLoading] = useState(false);
 
   const submitHandler = async () => {
+    setPicLoading(true);
     if (!name || !email || !password || !confirmpassword) {
       toast({
         title: "Please Fill all the Feilds",
@@ -28,6 +30,7 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
+      setPicLoading(false);
       return;
     }
     if (password !== confirmpassword) {
@@ -58,7 +61,15 @@ const Signup = () => {
         config
       );
       console.log(data);
+      toast({
+        title: "Registration Successful",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
       localStorage.setItem("userInfo", JSON.stringify(data));
+      setPicLoading(false);
       history.push("/chats");
     } catch (error) {
       toast({
@@ -69,10 +80,12 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
+      setPicLoading(false);
     }
   };
 
   const postDetails = (pics) => {
+    setPicLoading(true);
     if (pics === undefined) {
       toast({
         title: "Please Select an Image!",
@@ -97,9 +110,11 @@ const Signup = () => {
         .then((data) => {
           setPic(data.url.toString());
           console.log(data.url.toString());
+          setPicLoading(false);
         })
         .catch((err) => {
           console.log(err);
+          setPicLoading(false);
         });
     } else {
       toast({
@@ -109,6 +124,7 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
+      setPicLoading(false);
       return;
     }
   };
@@ -174,6 +190,7 @@ const Signup = () => {
         width="100%"
         style={{ marginTop: 15 }}
         onClick={submitHandler}
+        isLoading={picLoading}
       >
         Sign Up
       </Button>
