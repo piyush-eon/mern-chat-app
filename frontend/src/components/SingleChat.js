@@ -12,13 +12,11 @@ import ScrollableChat from "./ScrollableChat";
 
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
+import { ChatState } from "../Context/ChatProvider";
 const ENDPOINT = "https://talk-a-tive.herokuapp.com";
 var socket, selectedChatCompare;
 
 const SingleChat = ({
-  setSelectedChat,
-  selectedChat,
-  user,
   fetchAgain,
   setFetchAgain,
   notification,
@@ -31,6 +29,8 @@ const SingleChat = ({
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
+
+  const { selectedChat, setSelectedChat, user } = ChatState();
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
@@ -183,10 +183,7 @@ const SingleChat = ({
                 <>
                   {selectedChat.chatName.toUpperCase()}
                   <UpdateGroupChatModal
-                    user={user}
-                    selectedChat={selectedChat}
                     fetchMessages={fetchMessages}
-                    setSelectedChat={setSelectedChat}
                     fetchAgain={fetchAgain}
                     setFetchAgain={setFetchAgain}
                   />
@@ -214,7 +211,7 @@ const SingleChat = ({
               />
             ) : (
               <div className="messages">
-                <ScrollableChat messages={messages} user={user} />
+                <ScrollableChat messages={messages} />
               </div>
             )}
 

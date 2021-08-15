@@ -30,19 +30,15 @@ import NotificationBadge from "react-notification-badge";
 import { Effect } from "react-notification-badge";
 import { getSender } from "../../config/ChatLogics";
 import UserListItem from "../userAvatar/UserListItem";
+import { ChatState } from "../../Context/ChatProvider";
 
-function SideDrawer({
-  user,
-  chats,
-  setChats,
-  setSelectedChat,
-  notification,
-  setNotification,
-}) {
+function SideDrawer({ chats, setChats, notification, setNotification }) {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
+
+  const { setSelectedChat, user } = ChatState();
 
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
