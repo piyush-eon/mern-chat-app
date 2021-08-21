@@ -16,12 +16,7 @@ import { ChatState } from "../Context/ChatProvider";
 const ENDPOINT = "https://talk-a-tive.herokuapp.com";
 var socket, selectedChatCompare;
 
-const SingleChat = ({
-  fetchAgain,
-  setFetchAgain,
-  notification,
-  setNotification,
-}) => {
+const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
@@ -30,7 +25,8 @@ const SingleChat = ({
   const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
 
-  const { selectedChat, setSelectedChat, user } = ChatState();
+  const { selectedChat, setSelectedChat, user, notification, setNotification } =
+    ChatState();
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
@@ -118,7 +114,7 @@ const SingleChat = ({
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
       if (
-        !selectedChatCompare ||
+        !selectedChatCompare || // if chat is not selected or doesn't match current chat
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) {
         if (!notification.includes(newMessageRecieved)) {

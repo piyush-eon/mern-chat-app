@@ -19,7 +19,7 @@ import { ChatState } from "../../Context/ChatProvider";
 import UserBadgeItem from "../userAvatar/UserBadgeItem";
 import UserListItem from "../userAvatar/UserListItem";
 
-const GroupChatModal = ({ children, chats, setChats }) => {
+const GroupChatModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState();
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -28,7 +28,7 @@ const GroupChatModal = ({ children, chats, setChats }) => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
-  const { user } = ChatState();
+  const { user, chats, setChats } = ChatState();
 
   const handleGroup = (userToAdd) => {
     if (selectedUsers.includes(userToAdd)) {

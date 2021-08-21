@@ -3,12 +3,7 @@ import "./styles.css";
 import SingleChat from "./SingleChat";
 import { ChatState } from "../Context/ChatProvider";
 
-const Chatbox = ({
-  fetchAgain,
-  setFetchAgain,
-  notification,
-  setNotification,
-}) => {
+const Chatbox = ({ fetchAgain, setFetchAgain }) => {
   const { selectedChat } = ChatState();
 
   return (
@@ -22,12 +17,7 @@ const Chatbox = ({
       borderRadius="lg"
       borderWidth="1px"
     >
-      <SingleChat
-        fetchAgain={fetchAgain}
-        setFetchAgain={setFetchAgain}
-        notification={notification}
-        setNotification={setNotification}
-      />
+      <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
     </Box>
   );
 };
