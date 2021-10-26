@@ -7,16 +7,13 @@ import { getSender } from "../config/ChatLogics";
 import ChatLoading from "./ChatLoading";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
 import { Button } from "@chakra-ui/react";
+import { ChatState } from "../Context/ChatProvider";
 
-const MyChats = ({
-  user,
-  selectedChat,
-  setSelectedChat,
-  chats,
-  setChats,
-  fetchAgain,
-}) => {
+const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
+
+  const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
+
   const toast = useToast();
 
   const fetchChats = async () => {
@@ -30,7 +27,6 @@ const MyChats = ({
 
       const { data } = await axios.get("/api/chat", config);
       setChats(data);
-      // console.log(data);
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -71,7 +67,7 @@ const MyChats = ({
         alignItems="center"
       >
         My Chats
-        <GroupChatModal user={user} chats={chats} setChats={setChats}>
+        <GroupChatModal>
           <Button
             d="flex"
             fontSize={{ base: "17px", md: "10px", lg: "17px" }}

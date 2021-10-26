@@ -15,10 +15,11 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
+import { ChatState } from "../../Context/ChatProvider";
 import UserBadgeItem from "../userAvatar/UserBadgeItem";
 import UserListItem from "../userAvatar/UserListItem";
 
-const GroupChatModal = ({ user, children, chats, setChats }) => {
+const GroupChatModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState();
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -26,6 +27,8 @@ const GroupChatModal = ({ user, children, chats, setChats }) => {
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const toast = useToast();
+
+  const { user, chats, setChats } = ChatState();
 
   const handleGroup = (userToAdd) => {
     if (selectedUsers.includes(userToAdd)) {
@@ -169,7 +172,6 @@ const GroupChatModal = ({ user, children, chats, setChats }) => {
               searchResult?.map((user) => (
                 <UserListItem
                   key={user._id}
-                  user={user}
                   handleFunction={() => handleGroup(user)}
                 />
               ))
