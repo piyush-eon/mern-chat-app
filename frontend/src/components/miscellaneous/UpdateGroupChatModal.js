@@ -18,25 +18,20 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
+import { ChatState } from "../../Context/ChatProvider";
 import UserBadgeItem from "../userAvatar/UserBadgeItem";
 import UserListItem from "../userAvatar/UserListItem";
 
-const UpdateGroupChatModal = ({
-  user,
-  selectedChat,
-  fetchMessages,
-  setSelectedChat,
-  fetchAgain,
-  setFetchAgain,
-}) => {
+const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState();
-  const [selectedUser, setSelectedUser] = useState([]);
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [renameloading, setRenameLoading] = useState(false);
   const toast = useToast();
+
+  const { selectedChat, setSelectedChat, user } = ChatState();
 
   const handleSearch = async (query) => {
     setSearch(query);

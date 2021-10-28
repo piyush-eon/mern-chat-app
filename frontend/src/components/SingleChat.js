@@ -14,18 +14,11 @@ import animationData from "../animations/typing.json";
 
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
-const ENDPOINT = "https://talk-a-tive.herokuapp.com";
+import { ChatState } from "../Context/ChatProvider";
+const ENDPOINT = "http://localhost:5000"; // "https://talk-a-tive.herokuapp.com"; -> After deployment
 var socket, selectedChatCompare;
 
-const SingleChat = ({
-  setSelectedChat,
-  selectedChat,
-  user,
-  fetchAgain,
-  setFetchAgain,
-  notification,
-  setNotification,
-}) => {
+const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
@@ -42,6 +35,8 @@ const SingleChat = ({
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+  const { selectedChat, setSelectedChat, user, notification, setNotification } =
+    ChatState();
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
@@ -129,7 +124,7 @@ const SingleChat = ({
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
       if (
-        !selectedChatCompare ||
+        !selectedChatCompare || // if chat is not selected or doesn't match current chat
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) {
         if (!notification.includes(newMessageRecieved)) {
@@ -194,10 +189,7 @@ const SingleChat = ({
                 <>
                   {selectedChat.chatName.toUpperCase()}
                   <UpdateGroupChatModal
-                    user={user}
-                    selectedChat={selectedChat}
                     fetchMessages={fetchMessages}
-                    setSelectedChat={setSelectedChat}
                     fetchAgain={fetchAgain}
                     setFetchAgain={setFetchAgain}
                   />
@@ -225,7 +217,7 @@ const SingleChat = ({
               />
             ) : (
               <div className="messages">
-                <ScrollableChat messages={messages} user={user} />
+                <ScrollableChat messages={messages} />
               </div>
             )}
 

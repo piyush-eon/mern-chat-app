@@ -1,16 +1,11 @@
 import { Box } from "@chakra-ui/layout";
 import "./styles.css";
 import SingleChat from "./SingleChat";
+import { ChatState } from "../Context/ChatProvider";
 
-const Chatbox = ({
-  selectedChat,
-  user,
-  setSelectedChat,
-  fetchAgain,
-  setFetchAgain,
-  notification,
-  setNotification,
-}) => {
+const Chatbox = ({ fetchAgain, setFetchAgain }) => {
+  const { selectedChat } = ChatState();
+
   return (
     <Box
       d={{ base: selectedChat ? "flex" : "none", md: "flex" }}
@@ -22,15 +17,7 @@ const Chatbox = ({
       borderRadius="lg"
       borderWidth="1px"
     >
-      <SingleChat
-        setSelectedChat={setSelectedChat}
-        selectedChat={selectedChat}
-        user={user}
-        fetchAgain={fetchAgain}
-        setFetchAgain={setFetchAgain}
-        notification={notification}
-        setNotification={setNotification}
-      />
+      <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
     </Box>
   );
 };
