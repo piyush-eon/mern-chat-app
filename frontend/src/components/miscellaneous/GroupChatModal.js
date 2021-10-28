@@ -166,13 +166,15 @@ const GroupChatModal = ({ user, children, chats, setChats }) => {
               // <ChatLoading />
               <div>Loading...</div>
             ) : (
-              searchResult?.map((user) => (
-                <UserListItem
-                  key={user._id}
-                  user={user}
-                  handleFunction={() => handleGroup(user)}
-                />
-              ))
+              searchResult
+                ?.slice(0, 4)
+                .map((user) => (
+                  <UserListItem
+                    key={user._id}
+                    user={user}
+                    handleFunction={() => handleGroup(user)}
+                  />
+                ))
             )}
           </ModalBody>
           <ModalFooter>

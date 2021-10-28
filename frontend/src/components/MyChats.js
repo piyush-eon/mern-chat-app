@@ -60,7 +60,7 @@ const MyChats = ({
       borderRadius="lg"
       borderWidth="1px"
     >
-      <Text
+      <Box
         pb={3}
         px={3}
         fontSize={{ base: "28px", md: "30px" }}
@@ -80,7 +80,7 @@ const MyChats = ({
             New Group Chat
           </Button>
         </GroupChatModal>
-      </Text>
+      </Box>
       <Box
         d="flex"
         flexDir="column"
@@ -92,7 +92,7 @@ const MyChats = ({
         overflowY="hidden"
       >
         {chats ? (
-          <Stack>
+          <Stack overflowY="scroll">
             {chats.map((chat) => (
               <Box
                 onClick={() => setSelectedChat(chat)}
