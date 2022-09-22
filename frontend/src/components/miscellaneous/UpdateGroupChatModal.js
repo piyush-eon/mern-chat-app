@@ -47,7 +47,6 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         },
       };
       const { data } = await axios.get(`/api/user?search=${search}`, config);
-      console.log(data);
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
@@ -62,7 +61,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       setLoading(false);
     }
   };
-
+  
   const handleRename = async () => {
     if (!groupChatName) return;
 
