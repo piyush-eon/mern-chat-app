@@ -11,8 +11,8 @@
     "mern",
     "chat-app"
   ],
-  "author": "Piyush Agarwal",
-  "license": "ISC",
+  "author": "Afaque Ahmed",
+  "license": "IIS",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
