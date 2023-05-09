@@ -8,8 +8,9 @@ import { useState } from "react";
 import { useHistory } from "react-router";
 import { ChatState } from "../../Context/ChatProvider";
 
-const Signup = () => {
+const Signup = (props) => {
 
+  const { boxColor } = props; 
   const { setUser } = ChatState();
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
@@ -136,27 +137,30 @@ const Signup = () => {
   return (
     <VStack spacing="5px">
       <FormControl id="first-name" isRequired>
-        <FormLabel>Name</FormLabel>
+        <FormLabel color={boxColor === "black" ? "whatsapp.100" : "black"}>Name</FormLabel>
         <Input
           placeholder="Enter Your Name"
           onChange={(e) => setName(e.target.value)}
+          color={boxColor === "black" ? "whatsapp.100" : "black"}
         />
       </FormControl>
       <FormControl id="email" isRequired>
-        <FormLabel>Email Address</FormLabel>
+        <FormLabel color={boxColor === "black" ? "whatsapp.100" : "black"}>Email Address</FormLabel>
         <Input
           type="email"
           placeholder="Enter Your Email Address"
           onChange={(e) => setEmail(e.target.value)}
+          color={boxColor === "black" ? "whatsapp.100" : "black"}
         />
       </FormControl>
       <FormControl id="password" isRequired>
-        <FormLabel>Password</FormLabel>
+        <FormLabel color={boxColor === "black" ? "whatsapp.100" : "black"}>Password</FormLabel>
         <InputGroup size="md">
           <Input
             type={show ? "text" : "password"}
             placeholder="Enter Password"
             onChange={(e) => setPassword(e.target.value)}
+            color={boxColor === "black" ? "whatsapp.100" : "black"}
           />
           <InputRightElement width="4.5rem">
             <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -166,12 +170,13 @@ const Signup = () => {
         </InputGroup>
       </FormControl>
       <FormControl id="password" isRequired>
-        <FormLabel>Confirm Password</FormLabel>
+        <FormLabel color={boxColor === "black" ? "whatsapp.100" : "black"}>Confirm Password</FormLabel>
         <InputGroup size="md">
           <Input
             type={show ? "text" : "password"}
             placeholder="Confirm password"
             onChange={(e) => setConfirmpassword(e.target.value)}
+            color={boxColor === "black" ? "whatsapp.100" : "black"}
           />
           <InputRightElement width="4.5rem">
             <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -181,12 +186,13 @@ const Signup = () => {
         </InputGroup>
       </FormControl>
       <FormControl id="pic">
-        <FormLabel>Upload your Picture</FormLabel>
+        <FormLabel color={boxColor === "black" ? "whatsapp.100" : "black"}>Upload your Picture</FormLabel>
         <Input
           type="file"
           p={1.5}
           accept="image/*"
           onChange={(e) => postDetails(e.target.files[0])}
+          color={boxColor === "black" ? "whatsapp.100" : "black"}
         />
       </FormControl>
       <Button

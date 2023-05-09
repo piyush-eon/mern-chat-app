@@ -18,7 +18,7 @@ import { ChatState } from "../Context/ChatProvider";
 const ENDPOINT = "http://localhost:5000"; // "https://talk-a-tive.herokuapp.com"; -> After deployment
 var socket, selectedChatCompare;
 
-const SingleChat = ({ fetchAgain, setFetchAgain }) => {
+const SingleChat = ({ fetchAgain, setFetchAgain, boxColor }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
@@ -171,6 +171,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             d="flex"
             justifyContent={{ base: "space-between" }}
             alignItems="center"
+            color={boxColor === "black" ? "whatsapp.100" : "black"}
           >
             <IconButton
               d={{ base: "flex", md: "none" }}
@@ -197,11 +198,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               ))}
           </Text>
           <Box
-            d="flex"
+            display="flex"
             flexDir="column"
             justifyContent="flex-end"
             p={3}
-            bg="#E8E8E8"
+            bg={boxColor === "black" ? "#1C1C1C" : "#F8F8F8"}
             w="100%"
             h="100%"
             borderRadius="lg"
@@ -252,7 +253,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       ) : (
         // to get socket.io on same page
         <Box d="flex" alignItems="center" justifyContent="center" h="100%">
-          <Text fontSize="3xl" pb={3} fontFamily="Work sans">
+          <Text fontSize="3xl" pb={3} fontFamily="Work sans" color={boxColor === "black" ? "whatsapp.100" : "black"}>
             Click on a user to start chatting
           </Text>
         </Box>

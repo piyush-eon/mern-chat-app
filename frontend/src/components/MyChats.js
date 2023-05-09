@@ -9,7 +9,10 @@ import GroupChatModal from "./miscellaneous/GroupChatModal";
 import { Button } from "@chakra-ui/react";
 import { ChatState } from "../Context/ChatProvider";
 
-const MyChats = ({ fetchAgain }) => {
+const MyChats = ({ fetchAgain,boxColor }) => {
+
+  console.log(`${boxColor} is in MyChats`)
+  
   const [loggedUser, setLoggedUser] = useState();
 
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
@@ -47,11 +50,11 @@ const MyChats = ({ fetchAgain }) => {
 
   return (
     <Box
-      d={{ base: selectedChat ? "none" : "flex", md: "flex" }}
+      display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
       flexDir="column"
       alignItems="center"
       p={3}
-      bg="white"
+      bg={boxColor}
       w={{ base: "100%", md: "31%" }}
       borderRadius="lg"
       borderWidth="1px"
@@ -61,27 +64,29 @@ const MyChats = ({ fetchAgain }) => {
         px={3}
         fontSize={{ base: "28px", md: "30px" }}
         fontFamily="Work sans"
-        d="flex"
+        display="flex"
         w="100%"
         justifyContent="space-between"
         alignItems="center"
+        color={boxColor === "black" ? "whatsapp.100" : "black"}
       >
         My Chats
         <GroupChatModal>
           <Button
-            d="flex"
+            display="flex"
             fontSize={{ base: "17px", md: "10px", lg: "17px" }}
             rightIcon={<AddIcon />}
+            color = {boxColor}
           >
             New Group Chat
           </Button>
         </GroupChatModal>
       </Box>
       <Box
-        d="flex"
+        display="flex"
         flexDir="column"
         p={3}
-        bg="#F8F8F8"
+        bg={boxColor}
         w="100%"
         h="100%"
         borderRadius="lg"
