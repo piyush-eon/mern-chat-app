@@ -80,6 +80,7 @@ function SideDrawer() {
       const { data } = await axios.get(`/api/user?search=${search}`, config);
 
       setLoading(false);
+      // console.log(data);
       setSearchResult(data);
     } catch (error) {
       toast({
@@ -207,13 +208,14 @@ function SideDrawer() {
             {loading ? (
               <ChatLoading />
             ) : (
-              searchResult?.map((user) => (
-                <UserListItem
-                  key={user._id}
-                  user={user}
-                  handleFunction={() => accessChat(user._id)}
+              searchResult?.map((Fuser) => {
+                console.log(Fuser);
+                return <UserListItem
+                  key={Fuser._id}
+                  user={Fuser}
+                  handleFunction={() => accessChat(Fuser._id)}
                 />
-              ))
+              })
             )}
             {loadingChat && <Spinner ml="auto" d="flex" />}
           </DrawerBody>
