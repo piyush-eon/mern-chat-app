@@ -75,7 +75,7 @@ const Signup = (props) => {
       setUser(data);
       localStorage.setItem("userInfo", JSON.stringify(data));
       setPicLoading(false);
-      history.push("/chats");
+      history.push('/chats', { boxColor: boxColor });
     } catch (error) {
       toast({
         title: "Error Occured!",

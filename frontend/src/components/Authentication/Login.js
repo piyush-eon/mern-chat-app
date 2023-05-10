@@ -8,8 +8,7 @@ import { useToast } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 import { ChatState } from "../../Context/ChatProvider";
 
-const Login = (props) => {
-  const { boxColor } = props; 
+const Login = ({boxColor}) => {
   const { setUser } = ChatState();
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
