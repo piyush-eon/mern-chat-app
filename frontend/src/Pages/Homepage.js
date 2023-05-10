@@ -8,13 +8,15 @@ import {
   Tabs,
   Text,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
 import { useHistory } from "react-router";
 import Login from "../components/Authentication/Login";
 import Signup from "../components/Authentication/Signup";
+import { useState, useEffect } from "react";
+import { Button } from "@chakra-ui/react";
 
 function Homepage() {
   const history = useHistory();
+  const [boxColor, setBoxColor] = useState("white"); // new state variable
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
@@ -25,31 +27,45 @@ function Homepage() {
   return (
     <Container maxW="xl" centerContent>
       <Box
-        d="flex"
+        display="flex"
         justifyContent="center"
         p={3}
-        bg="white"
+        bg={boxColor}
         w="100%"
         m="40px 0 15px 0"
         borderRadius="lg"
         borderWidth="1px"
       >
-        <Text fontSize="4xl" fontFamily="Work sans">
-          Talk-A-Tive
+          <Button
+          position="absolute"
+          bottom="10"
+          left="10"
+          variant="solid"
+          size="md"
+          borderRadius="full"
+          mr={4}
+          onClick={() => {
+            setBoxColor(boxColor === "black" ? "white" : "black");
+          }}
+        >
+          D
+        </Button>
+        <Text fontSize="4xl" fontFamily="Work sans" color={boxColor === "black" ? "whatsapp.100" : "black"}>
+          Surmai and Harshit
         </Text>
       </Box>
-      <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">
+      <Box bg={boxColor} w="100%" p={4} borderRadius="lg" borderWidth="1px">
         <Tabs isFitted variant="soft-rounded">
           <TabList mb="1em">
-            <Tab>Login</Tab>
-            <Tab>Sign Up</Tab>
+            <Tab color={boxColor === "black" ? "whatsapp.100" : "black"}>Login</Tab>
+            <Tab color={boxColor === "black" ? "whatsapp.100" : "black"}>Sign Up</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
-              <Login />
+              <Login boxColor={boxColor}/>
             </TabPanel>
             <TabPanel>
-              <Signup />
+              <Signup boxColor={boxColor}/>
             </TabPanel>
           </TabPanels>
         </Tabs>

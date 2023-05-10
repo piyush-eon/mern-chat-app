@@ -6,8 +6,10 @@ import { useState } from "react";
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
+import { ChatState } from "../../Context/ChatProvider";
 
-const Login = () => {
+const Login = ({boxColor}) => {
+  const { setUser } = ChatState();
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
   const toast = useToast();
@@ -53,9 +55,10 @@ const Login = () => {
         isClosable: true,
         position: "bottom",
       });
+      setUser(data);
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
-      history.push("/chats");
+      history.push('/chats', { boxColor: boxColor });
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -70,24 +73,26 @@ const Login = () => {
   };
 
   return (
-    <VStack spacing="10px">
+    <VStack spacing="10px" >
       <FormControl id="email" isRequired>
-        <FormLabel>Email Address</FormLabel>
+        <FormLabel color={boxColor === "black" ? "whatsapp.100" : "black"}>Email Address</FormLabel>
         <Input
           value={email}
           type="email"
           placeholder="Enter Your Email Address"
           onChange={(e) => setEmail(e.target.value)}
+          color={boxColor === "black" ? "whatsapp.100" : "black"}
         />
       </FormControl>
       <FormControl id="password" isRequired>
-        <FormLabel>Password</FormLabel>
+        <FormLabel color={boxColor === "black" ? "whatsapp.100" : "black"}>Password</FormLabel>
         <InputGroup size="md">
           <Input
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type={show ? "text" : "password"}
             placeholder="Enter password"
+            color={boxColor === "black" ? "whatsapp.100" : "black"}
           />
           <InputRightElement width="4.5rem">
             <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -104,17 +109,6 @@ const Login = () => {
         isLoading={loading}
       >
         Login
-      </Button>
-      <Button
-        variant="solid"
-        colorScheme="red"
-        width="100%"
-        onClick={() => {
-          setEmail("guest@example.com");
-          setPassword("123456");
-        }}
-      >
-        Get Guest User Credentials
       </Button>
     </VStack>
   );
