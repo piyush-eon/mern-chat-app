@@ -90,7 +90,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           config
         );
         socket.emit("new message", data);
-        setMessages([...messages, data]);
+        // setMessages([...messages, data]);
+        setMessages((prevMessage) => {
+          return [...prevMessage, data];
+        });
       } catch (error) {
         toast({
           title: "Error Occured!",
