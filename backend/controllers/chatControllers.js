@@ -79,7 +79,7 @@ const fetchChats = asyncHandler(async (req, res) => {
 //@access          Protected
 const createGroupChat = asyncHandler(async (req, res) => {
   if (!req.body.users || !req.body.name) {
-    return res.status(400).send({ message: "Please Fill all the feilds" });
+    return res.status(400).send({ message: "Please Fill all the Fields" });
   }
 
   var users = JSON.parse(req.body.users);

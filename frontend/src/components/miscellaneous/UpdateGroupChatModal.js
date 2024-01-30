@@ -28,7 +28,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [renameloading, setRenameLoading] = useState(false);
+  const [renameLoading, setRenameLoading] = useState(false);
   const toast = useToast();
 
   const { selectedChat, setSelectedChat, user } = ChatState();
@@ -52,7 +52,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       setSearchResult(data);
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: "Error Occurred!",
         description: "Failed to Load the Search Results",
         status: "error",
         duration: 5000,
@@ -89,7 +89,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       setRenameLoading(false);
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: "Error Occurred!",
         description: error.response.data.message,
         status: "error",
         duration: 5000,
@@ -145,7 +145,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       setLoading(false);
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: "Error Occurred!",
         description: error.response.data.message,
         status: "error",
         duration: 5000,
@@ -191,7 +191,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       setLoading(false);
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: "Error Occurred!",
         description: error.response.data.message,
         status: "error",
         duration: 5000,
@@ -242,7 +242,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
                 variant="solid"
                 colorScheme="teal"
                 ml={1}
-                isLoading={renameloading}
+                isLoading={renameLoading}
                 onClick={handleRename}
               >
                 Update
